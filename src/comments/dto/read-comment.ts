@@ -17,24 +17,21 @@ export default class ReadCommentDto {
 
   @ApiProperty({
     description: 'The  user who created the comment',
-    example: 1,
     type: UserReadDto,
   })
   user: UserReadDto;
 
   @ApiProperty({
     description: 'The post to which the comment belongs',
-    example: 1,
     type: ReadPostDto,
   })
   post: ReadPostDto;
 
   @ApiProperty({
     description: 'Parent comment',
-    example: 1,
     type: ReadCommentDto,
   })
-  commentId: ReadCommentDto;
+  parent: ReadCommentDto;
 
   @ApiProperty({
     description: 'The date when the comment was created',
