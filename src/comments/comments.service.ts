@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import Post from '../posts/entity/posts.entity';
 import User from '../users/entity/users.entity';
 import CreateCommentDto from './dto/create-comment.dto';
@@ -20,8 +20,25 @@ export class CommentsService {
     newComment.text = comment.text;
     newComment.user = user;
     newComment.post = await Post.findOneBy({ id: comment.postId });
-    newComment.commentsId = comment.commentId;
+    newComment.parent = comment.commentId
+      ? await Comment.findOneBy({ id: comment.commentId })
+      : null;
 
     return newComment.save();
+  }
+
+  /**
+   * Delete a comment
+   * @param commentId Comment id to delete
+   */
+  async delete(commentId: number, user: User) {
+    const comment = await Comment.findOneBy({ id: commentId });
+
+    if (comment.userId !== user.id)
+      throw new ForbiddenException(
+        'You are not allowed to delete this comment',
+      );
+
+    await comment.remove();
   }
 }
