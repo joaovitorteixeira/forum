@@ -51,4 +51,15 @@ export class PostsController {
   async like(@Req() req, @Param() post: LikePostDto) {
     await this.postService.like(post.id, req.user);
   }
+
+  @Post(':id/unlike')
+  @ApiNoContentResponse({
+    description: 'The post has been like removed',
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  async unlike(@Req() req, @Param() post: LikePostDto) {
+    await this.postService.removeLike(post.id, req.user);
+  }
 }

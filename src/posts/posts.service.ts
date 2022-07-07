@@ -36,20 +36,48 @@ export class PostsService {
    */
   async like(postId: number, user: User): Promise<PostLikesUser> {
     const post = await Post.createQueryBuilder('post')
-      .leftJoinAndSelect('post.likes', 'likes')
-      .where('post.id = :id', { id: postId })
+      .leftJoinAndMapOne(
+        'post.likes',
+        PostLikesUser,
+        'likes',
+        'likes.postId = :postId',
+        { postId: postId },
+      )
+      .where('likes.userId = :userId', { userId: user.id })
       .getOne();
 
-    if (!post) throw new NotFoundException('Post not found');
-
-    if (post.likes.find((like) => like.id === user.id))
-      throw new ForbiddenException('User already liked this post');
+    if (post) throw new ForbiddenException('User already liked this post');
 
     const newLike = new PostLikesUser();
 
     newLike.userId = user.id;
-    newLike.postId = post.id;
+    newLike.postId = postId;
 
     return newLike.save();
+  }
+
+  /**
+   * Try to unlike a post
+   * @param postId The id of the post to remove the like from
+   * @param user The user who wants to remove the like
+   * @returns If post exists and has the user liked it, it will be removed
+   */
+  async removeLike(postId: number, user: User): Promise<PostLikesUser> {
+    const post = await Post.createQueryBuilder('post')
+      .leftJoinAndMapOne(
+        'post.likes',
+        PostLikesUser,
+        'likes',
+        'likes.postId = :postId',
+        { postId: postId },
+      )
+      .where('likes.userId = :userId', { userId: user.id })
+      .getOne();
+
+    if (!post) throw new ForbiddenException('User did not like this post');
+
+    const like = post.likes as PostLikesUser;
+
+    return like.remove();
   }
 }
