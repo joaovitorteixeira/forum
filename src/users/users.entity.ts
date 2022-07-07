@@ -1,8 +1,15 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { AuthService } from 'src/auth/auth.service';
+import {
+  BaseEntity,
+  BeforeInsert,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
-export default class User {
+export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,4 +31,9 @@ export default class User {
     toPlainOnly: true,
   })
   password: string;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await AuthService.hashPassword(this.password);
+  }
 }
