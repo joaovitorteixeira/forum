@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import Post from './posts/entity/posts.entity';
 import { PostsModule } from './posts/posts.module';
+import { CommentsModule } from './comments/comments.module';
 import PostLikesUser from './posts/entity/post-likes-user.entity';
 
 @Module({
@@ -33,6 +34,7 @@ import PostLikesUser from './posts/entity/post-likes-user.entity';
     UsersModule,
     AuthModule,
     PostsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
