@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  mysql:
+    platform: linux/x86_64
+    image: mysql:8
+    ports:
+      - $MYSQL_PORT:$MYSQL_PORT
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_TCP_PORT=$MYSQL_PORT
