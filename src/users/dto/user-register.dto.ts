@@ -9,6 +9,8 @@ import {
 import { CONSTANTS } from 'src/Util/Constants/constants.util';
 import { REPORT_ERRORS } from 'src/Util/Constants/errors-reports.util';
 import { Match } from 'src/Util/Decorator/match.decorator';
+import { CheckUnique } from '../../Util/Decorator/check-unique.decorator';
+import User from '../entity/users.entity';
 
 export default class UserRegisterDto {
   @IsEmail()
@@ -16,6 +18,7 @@ export default class UserRegisterDto {
     description: 'The email of the user',
     example: 'valid@email.com',
   })
+  @CheckUnique(User)
   email: string;
 
   @IsPhoneNumber('AU')
@@ -23,6 +26,7 @@ export default class UserRegisterDto {
     description: 'The phone number of the user',
     example: '0400000000',
   })
+  @CheckUnique(User)
   telephone: string;
 
   @IsString()
