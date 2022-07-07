@@ -8,8 +8,6 @@ import User from './users.entity';
 type UserIdentificationType = string | number;
 @Injectable()
 export class UsersService {
-  constructor() {}
-
   /**
    * Register a new user
    * @param user The user to create in the database
