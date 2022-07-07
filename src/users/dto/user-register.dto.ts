@@ -26,7 +26,9 @@ export default class UserRegisterDto {
   telephone: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: REPORT_ERRORS.FIELD_REQUIRED,
+  })
   @ApiProperty({
     description: 'The first name of the user',
     example: 'John',
@@ -34,7 +36,7 @@ export default class UserRegisterDto {
   firstName: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: REPORT_ERRORS.FIELD_REQUIRED })
   @ApiProperty({
     description: 'The last name of the user',
     example: 'Teixeira',
@@ -42,7 +44,7 @@ export default class UserRegisterDto {
   lastName: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: REPORT_ERRORS.FIELD_REQUIRED })
   @Length(CONSTANTS.MIN_PASSWORD_LENGTH, CONSTANTS.MAX_PASSWORD_LENGTH, {
     message: REPORT_ERRORS.FIELD_LENGTH(
       CONSTANTS.MIN_PASSWORD_LENGTH,
@@ -55,7 +57,6 @@ export default class UserRegisterDto {
   })
   password: string;
 
-  @IsString()
   @Match('password', { message: REPORT_ERRORS.PASSWORD_MISMATCH })
   @ApiProperty({
     description: 'The password confirmation of the user',
