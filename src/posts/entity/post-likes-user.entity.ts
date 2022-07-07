@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import User from '../../users/entity/users.entity';
 import Post from './posts.entity';
 
@@ -10,9 +10,9 @@ export default class PostLikesUser extends BaseEntity {
   @Column({ primary: true })
   postId: number;
 
-  @OneToMany(() => Post, (post) => post.likes)
+  @ManyToOne(() => Post, (post) => post.likes)
   post: Post;
 
-  @OneToMany(() => User, (user) => user.likes)
+  @ManyToOne(() => User, (user) => user.likes)
   user: User;
 }
