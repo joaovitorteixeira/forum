@@ -3,11 +3,13 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  TreeChildren,
 } from 'typeorm';
 import Post from '../../posts/entity/posts.entity';
 import User from '../../users/entity/users.entity';
@@ -44,10 +46,12 @@ export default class Comment extends BaseEntity {
   })
   post: Post;
 
-  @ManyToOne(() => Comment, (comment) => comment.comments, {
+  @ManyToOne(() => Comment, (comment) => comment.id, {
     nullable: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'commentsId' })
+  @TreeChildren()
   comments: Comment[];
 
   @BeforeInsert()
