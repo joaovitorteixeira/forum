@@ -8,6 +8,11 @@ import {
 } from 'class-validator';
 import { BaseEntity } from 'typeorm';
 
+type ExistElementOptions = {
+  entity: typeof BaseEntity;
+  columnName: string;
+};
+
 /**
  * Validate if the entity has an element with the given id.
  * @param property Class extends BaseEntity
@@ -15,7 +20,7 @@ import { BaseEntity } from 'typeorm';
  * @returns
  */
 export function ExistElement(
-  entity: typeof BaseEntity,
+  entity: ExistElementOptions,
   validationOptions?: ValidationOptions,
 ) {
   return (object: any, propertyName: string) => {
@@ -32,9 +37,10 @@ export function ExistElement(
 @ValidatorConstraint({ name: 'ExistElement' })
 export class ExistElementConstraint implements ValidatorConstraintInterface {
   async validate(value: any, args: ValidationArguments) {
-    const [Class] = args.constraints;
+    const [{ entity: Class, columnName }] =
+      args.constraints as ExistElementOptions[];
     const key = args.property;
-    const element = await Class.findOneBy({ [key]: value });
+    const element = await Class.findOneBy({ [columnName]: value });
 
     if (!element)
       throw new NotFoundException(
