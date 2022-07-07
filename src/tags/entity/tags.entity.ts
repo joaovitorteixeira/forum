@@ -1,21 +1,15 @@
 import {
   BaseEntity,
   BeforeInsert,
-  Column,
   Entity,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from 'typeorm';
 import Post from '../../posts/entity/posts.entity';
 
 @Entity()
 export default class Tag extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({
-    unique: true,
-  })
+  @PrimaryColumn()
   name: string;
 
   @ManyToMany(() => Post, (post) => post.tags)
