@@ -13,7 +13,6 @@ import { UsersService } from './users.service';
 
 @Controller('users')
 @ApiTags('users')
-@UseInterceptors(ClassSerializerInterceptor)
 export default class UserController {
   constructor(private readonly usersService: UsersService) {}
 
