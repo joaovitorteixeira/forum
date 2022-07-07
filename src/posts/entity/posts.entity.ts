@@ -11,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Comment from '../../comments/entity/comments.entity';
+import Tag from '../../tags/entity/tags.entity';
 import PostLikesUser from './post-likes-user.entity';
 
 @Entity()
@@ -40,6 +41,10 @@ export default class Post extends BaseEntity {
 
   @OneToMany(() => Comment, (comment) => comment.post)
   comments: Comment[];
+
+  @ManyToMany(() => Tag, (tag) => tag.posts)
+  @JoinTable()
+  tags: Tag[];
 
   @BeforeInsert()
   async setCreatedAt() {

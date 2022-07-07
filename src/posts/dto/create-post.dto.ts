@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { ArrayNotEmpty, IsNotEmpty } from 'class-validator';
 import { REPORT_ERRORS } from 'src/Util/Constants/errors-reports.util';
 
 export default class CreatePostDto {
@@ -20,4 +20,14 @@ export default class CreatePostDto {
     message: REPORT_ERRORS.FIELD_REQUIRED,
   })
   content: string;
+
+  @ApiProperty({
+    description:
+      'The tags of the post. If tags not exist, they will be created',
+    example: ['tag1', 'tag2'],
+  })
+  @ArrayNotEmpty({
+    message: REPORT_ERRORS.FIELD_REQUIRED,
+  })
+  tags: string[];
 }
