@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   HttpStatus,
   Param,
@@ -52,7 +53,7 @@ export class PostsController {
     await this.postService.like(post.id, req.user);
   }
 
-  @Post(':id/unlike')
+  @Delete(':id/like')
   @ApiNoContentResponse({
     description: 'The post has been like removed',
   })
