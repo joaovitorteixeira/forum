@@ -28,6 +28,11 @@ export default class Comment extends BaseEntity {
   @Column()
   postId: number;
 
+  @Column({
+    nullable: true,
+  })
+  commentsId: number;
+
   @Column()
   createdAt: Date;
 
