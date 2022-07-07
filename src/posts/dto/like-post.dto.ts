@@ -7,8 +7,11 @@ export default class LikePostDto {
     description: 'The id of the post to be liked',
     example: 1,
   })
-  @ExistElement(Post, {
-    message: 'The post does not exist',
-  })
+  @ExistElement(
+    { columnName: 'id', entity: Post },
+    {
+      message: 'The post does not exist',
+    },
+  )
   id: number;
 }

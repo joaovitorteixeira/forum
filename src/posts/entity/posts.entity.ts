@@ -7,8 +7,10 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import Comment from '../../comments/entity/comments.entity';
 import PostLikesUser from './post-likes-user.entity';
 
 @Entity()
@@ -35,6 +37,9 @@ export default class Post extends BaseEntity {
   })
   @JoinTable()
   likes: PostLikesUser;
+
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments: Comment[];
 
   @BeforeInsert()
   async setCreatedAt() {
