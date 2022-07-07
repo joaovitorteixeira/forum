@@ -1,10 +1,4 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import UserReadDto from './dto/user-read.dto';
 import UserRegisterDto from './dto/user-register.dto';
@@ -13,7 +7,7 @@ import { UsersService } from './users.service';
 
 @Controller('users')
 @ApiTags('users')
-export default class UserController {
+export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
