@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { AuthService } from 'src/auth/auth.service';
-import Post from 'src/posts/posts.entity';
+import Post from 'src/posts/entity/posts.entity';
 import {
   BaseEntity,
   BeforeInsert,

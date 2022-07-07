@@ -1,4 +1,4 @@
-import User from 'src/users/users.entity';
+import User from 'src/users/entity/users.entity';
 import {
   BaseEntity,
   BeforeInsert,

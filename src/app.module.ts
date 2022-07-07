@@ -3,10 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import User from './users/users.entity';
+import User from './users/entity/users.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import Post from './posts/posts.entity';
+import Post from './posts/entity/posts.entity';
 import { PostsModule } from './posts/posts.module';
 
 @Module({
