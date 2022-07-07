@@ -1,8 +1,5 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import User from 'src/users/entity/users.entity';
 import CreatePostDto from './dto/create-post.dto';
 import PostLikesUser from './entity/post-likes-user.entity';
@@ -10,7 +7,7 @@ import Post from './entity/posts.entity';
 
 @Injectable()
 export class PostsService {
-  constructor() {}
+  constructor(private eventEmitter: EventEmitter2) {}
 
   /**
    * Create a new post on the database
@@ -25,7 +22,13 @@ export class PostsService {
     newPost.content = post.content;
     newPost.user = user;
 
-    return newPost.save();
+    const createdPost = await newPost.save();
+    this.eventEmitter.emit('post.created', {
+      postId: createdPost.id,
+      tags: post.tags,
+    });
+
+    return createdPost;
   }
 
   /**
