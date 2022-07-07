@@ -10,7 +10,8 @@ export class UsersService {
     const newUser = new User();
 
     newUser.email = user.email;
-    newUser.name = user.name;
+    newUser.firstName = user.firstName;
+    newUser.lastName = user.lastName;
     newUser.telephone = user.telephone;
     newUser.password = user.password;
 
