@@ -6,6 +6,11 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor() {}
 
+  /**
+   * Hash the password
+   * @param password The password to hash
+   * @returns String The hashed password
+   */
   static async hashPassword(password: string): Promise<string> {
     const salt = bcrypt.genSaltSync(
       +new ConfigService().get('BCRYPT_SALT_ROUNDS'),

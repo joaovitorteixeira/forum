@@ -6,6 +6,11 @@ import User from './users.entity';
 export class UsersService {
   constructor() {}
 
+  /**
+   * Register a new user
+   * @param user The user to create in the database
+   * @returns The created user
+   */
   async register(user: UserRegisterDto): Promise<User> {
     const newUser = new User();
 
