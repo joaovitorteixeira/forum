@@ -1,6 +1,7 @@
 import User from 'src/users/users.entity';
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   Entity,
   ManyToOne,
@@ -25,4 +26,9 @@ export default class Post extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
+
+  @BeforeInsert()
+  async setCreatedAt() {
+    this.createdAt = new Date();
+  }
 }
