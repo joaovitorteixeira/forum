@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import User from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import Post from './posts/posts.entity';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -22,12 +24,13 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('MYSQL_USER'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [User],
+        entities: [User, Post],
         synchronize: configService.get('SYNCHRONIZE_DATABASE'),
       }),
     }),
     UsersModule,
     AuthModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
