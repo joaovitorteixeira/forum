@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { AuthService } from '../../auth/auth.service';
+import Comment from '../../comments/entity/comments.entity';
 import Post from '../../posts/entity/posts.entity';
 
 @Entity()
@@ -41,6 +42,9 @@ export default class User extends BaseEntity {
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 
   @ManyToMany(() => Post, (post) => post.likes)
   likes: Post[];
