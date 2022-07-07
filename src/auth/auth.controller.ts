@@ -16,7 +16,7 @@ export default class AuthController {
     type: LoginDto,
   })
   @ApiCreatedResponse({
-    description: 'Bearer tokern created',
+    description: 'Bearer token created',
     type: LoginSucceededDto,
   })
   async login(@Req() req): Promise<LoginSucceededDto> {
