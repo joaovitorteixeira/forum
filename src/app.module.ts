@@ -27,6 +27,7 @@ import PostLikesUser from './posts/entity/post-likes-user.entity';
         database: configService.get('MYSQL_DATABASE'),
         entities: [User, Post, PostLikesUser],
         synchronize: configService.get('SYNCHRONIZE_DATABASE'),
+        logging: configService.get('LOGGING_DATABASE'),
       }),
     }),
     UsersModule,
