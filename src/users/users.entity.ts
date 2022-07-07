@@ -1,10 +1,12 @@
 import { Exclude } from 'class-transformer';
 import { AuthService } from 'src/auth/auth.service';
+import Post from 'src/posts/posts.entity';
 import {
   BaseEntity,
   BeforeInsert,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -34,6 +36,9 @@ export default class User extends BaseEntity {
     toPlainOnly: true,
   })
   password: string;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 
   @BeforeInsert()
   async hashPassword() {
