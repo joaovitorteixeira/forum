@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import User from 'src/users/users.entity';
+import User from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import LoginSucceededDto from './dto/login-succeeded.dto';
 import JwtPayload from './Types/JwtPayload';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import UserRegisterDto from './dto/user-register.dto';
-import User from './users.entity';
+import User from './entity/users.entity';
 
 /**
  * All possible user identifiers types (id, email)
