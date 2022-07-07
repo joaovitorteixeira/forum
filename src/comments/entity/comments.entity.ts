@@ -10,6 +10,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   TreeChildren,
+  TreeParent,
 } from 'typeorm';
 import Post from '../../posts/entity/posts.entity';
 import User from '../../users/entity/users.entity';
@@ -30,11 +31,6 @@ export default class Comment extends BaseEntity {
   @Column()
   postId: number;
 
-  @Column({
-    nullable: true,
-  })
-  commentsId: number;
-
   @Column()
   createdAt: Date;
 
@@ -46,13 +42,11 @@ export default class Comment extends BaseEntity {
   })
   post: Post;
 
-  @ManyToOne(() => Comment, (comment) => comment.id, {
-    nullable: true,
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'commentsId' })
   @TreeChildren()
   comments: Comment[];
+
+  @TreeParent({ onDelete: 'CASCADE' })
+  parent: Comment;
 
   @BeforeInsert()
   async setCreatedAt() {
