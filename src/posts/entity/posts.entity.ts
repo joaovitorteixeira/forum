@@ -4,6 +4,8 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -26,6 +28,12 @@ export default class Post extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
+
+  @ManyToMany(() => User, (user) => user.posts, {
+    cascade: ['remove'],
+  })
+  @JoinTable()
+  likes: User[];
 
   @BeforeInsert()
   async setCreatedAt() {
