@@ -9,6 +9,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import PostLikesUser from './post-likes-user.entity';
 
 @Entity()
 export default class Post extends BaseEntity {
@@ -33,7 +34,7 @@ export default class Post extends BaseEntity {
     cascade: ['remove'],
   })
   @JoinTable()
-  likes: User[];
+  likes: PostLikesUser;
 
   @BeforeInsert()
   async setCreatedAt() {
