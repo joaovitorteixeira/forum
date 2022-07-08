@@ -101,8 +101,9 @@ export class PostsService {
           'comments',
           'comments.parentId IS NULL',
         )
-        .leftJoinAndSelect('post.tags', 'tags'),
-
+        .leftJoinAndSelect('post.tags', 'tags')
+        .loadRelationCountAndMap('post.likes', 'post.likes')
+        .loadRelationCountAndMap('post.comments', 'post.comments'),
       param,
     );
 
