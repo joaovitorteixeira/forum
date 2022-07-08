@@ -107,6 +107,8 @@ export class PostsService {
       param,
     );
 
-    return await query;
+    const [data, total] = await query;
+
+    return { data, total };
   }
 }
