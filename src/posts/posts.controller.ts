@@ -2,13 +2,13 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   HttpCode,
   HttpStatus,
   Param,
   Post,
   Req,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,6 +19,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import UserTermsConditionsUtil from '../Util/CustomValidation/user-terms-conditions.util';
+import GetUser from '../Util/Decorator/get-user.decorator';
 import CreatePostDto from './dto/create-post.dto';
 import LikePostDto from './dto/like-post.dto';
 import PaginationPostDto from './dto/pagination-post.dto';
@@ -30,6 +32,7 @@ import { PostsService } from './posts.service';
 @ApiTags('posts')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('Authorization')
+@UsePipes(UserTermsConditionsUtil)
 export class PostsController {
   constructor(private postService: PostsService) {}
 
@@ -42,8 +45,8 @@ export class PostsController {
     description: 'The post has been created',
     type: ReadPostDto,
   })
-  async create(@Req() req, @Body() post: CreatePostDto) {
-    return this.postService.create(post, req.user);
+  async create(@GetUser() user, @Body() post: CreatePostDto) {
+    return this.postService.create(post, user);
   }
 
   @Post(':id/like')
@@ -51,8 +54,8 @@ export class PostsController {
     description: 'The post has been liked',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async like(@Req() req, @Param() post: LikePostDto) {
-    await this.postService.like(post.id, req.user);
+  async like(@GetUser() user, @Param() post: LikePostDto) {
+    await this.postService.like(post.id, user);
   }
 
   @Delete(':id/like')
@@ -60,8 +63,8 @@ export class PostsController {
     description: 'The post has been like removed',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async unlike(@Req() req, @Param() post: LikePostDto) {
-    await this.postService.removeLike(post.id, req.user);
+  async unlike(@GetUser() user, @Param() post: LikePostDto) {
+    await this.postService.removeLike(post.id, user);
   }
 
   @Post('list')
@@ -70,7 +73,7 @@ export class PostsController {
     description: 'List of posts',
     type: PaginationPostDto,
   })
-  async readAll(@Body() param: ReadAllPostDto) {
+  async readAll(@Body() param: ReadAllPostDto, @GetUser() _user) {
     return this.postService.readPost(param);
   }
 }
