@@ -6,8 +6,8 @@ export default class Address extends BaseEntity {
   id: number;
 
   @Column()
-  lng: string;
+  lng: number;
 
   @Column()
-  lat: string;
+  lat: number;
 }

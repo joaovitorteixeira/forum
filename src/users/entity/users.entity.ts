@@ -11,7 +11,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import Address from '../../address/address.entity';
+import Address from '../../address/entity/address.entity';
 import { AuthService } from '../../auth/auth.service';
 import Comment from '../../comments/entity/comments.entity';
 import Post from '../../posts/entity/posts.entity';
