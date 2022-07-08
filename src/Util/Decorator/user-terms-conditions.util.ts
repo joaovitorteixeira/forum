@@ -21,7 +21,7 @@ export default class UserTermsConditionsUtil implements PipeTransform {
       .leftJoinAndSelect('termsCondition.users', 'users')
       .getOne();
 
-    if (!termsCondition.users.length) {
+    if (termsCondition && !termsCondition.users.length) {
       throw new ForbiddenException(
         'You must agree to the latest terms and conditions',
       );
