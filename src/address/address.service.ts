@@ -31,8 +31,8 @@ export class AddressService extends Client {
     const newAddress = new Address();
     const { lng, lat } = await this.getCoordinates(address);
 
-    newAddress.lng = lng;
-    newAddress.lat = lat;
+    newAddress.lng = '' + lng;
+    newAddress.lat = '' + lat;
     user.address = newAddress;
 
     return user.save();

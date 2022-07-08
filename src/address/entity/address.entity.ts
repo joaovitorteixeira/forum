@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import User from '../../users/entity/users.entity';
 
 @Entity()
 export default class Address extends BaseEntity {
@@ -6,8 +13,11 @@ export default class Address extends BaseEntity {
   id: number;
 
   @Column()
-  lng: number;
+  lng: string;
 
   @Column()
-  lat: number;
+  lat: string;
+
+  @OneToOne(() => User, (user) => user.address)
+  user: User;
 }
