@@ -10,6 +10,7 @@ import { CommentsModule } from './comments/comments.module';
 import { TagsModule } from './tags/tags.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TermsConditionsModule } from './terms-conditions/terms-conditions.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { TermsConditionsModule } from './terms-conditions/terms-conditions.modul
     TagsModule,
     EventEmitterModule.forRoot(),
     TermsConditionsModule,
+    AddressModule,
   ],
   controllers: [AppController],
   providers: [AppService],
