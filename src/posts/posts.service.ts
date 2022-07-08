@@ -1,7 +1,9 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import User from 'src/users/entity/users.entity';
+import Pagination from '../Util/Pagination/Pagination';
 import CreatePostDto from './dto/create-post.dto';
+import ReadAllPostDto from './dto/read-all-post.dto';
 import PostLikesUser from './entity/post-likes-user.entity';
 import Post from './entity/posts.entity';
 
@@ -82,5 +84,21 @@ export class PostsService {
     const like = post.likes as PostLikesUser;
 
     return like.remove();
+  }
+
+  /**
+   * Paginated list of posts
+   * @param param The parameters to filter the posts
+   * @returns The posts filtered by the parameters
+   */
+  async readPost(param: ReadAllPostDto) {
+    const query = new Pagination(Post, 'createdAt').pageBuilder(
+      Post.createQueryBuilder('post')
+        .innerJoinAndMapOne('post.user', User, 'user', 'user.id = post.userId')
+        .leftJoinAndSelect('post.likes', 'likes'),
+      param,
+    );
+
+    return await query;
   }
 }
