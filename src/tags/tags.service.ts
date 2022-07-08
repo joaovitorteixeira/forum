@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import Post from '../posts/entity/posts.entity';
 import CreateTagDto from './dto/create-tag.dto';
 import Tag from './entity/tags.entity';
 
