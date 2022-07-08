@@ -5,10 +5,13 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import Address from '../../address/address.entity';
 import { AuthService } from '../../auth/auth.service';
 import Comment from '../../comments/entity/comments.entity';
 import Post from '../../posts/entity/posts.entity';
@@ -52,6 +55,10 @@ export default class User extends BaseEntity {
 
   @ManyToMany(() => TermsConditions)
   termsConditions: TermsConditions[];
+
+  @OneToOne(() => Address, { nullable: true })
+  @JoinColumn()
+  address: Address;
 
   @BeforeInsert()
   async hashPassword() {
