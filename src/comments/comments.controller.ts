@@ -29,6 +29,7 @@ import Comment from './entity/comments.entity';
 
 @Controller('comments')
 @ApiTags('comments')
+@UseGuards(JwtAuthGuard)
 export default class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
@@ -41,7 +42,6 @@ export default class CommentsController {
     type: ReadCommentDto,
     description: 'The comment has been created',
   })
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   async create(
     @Req() req,
@@ -55,7 +55,6 @@ export default class CommentsController {
     description: 'The comment has been deleted',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   async delete(@Param() param: DeleteCommentDto, @Req() req) {
     await this.commentsService.delete(param, req.user);
