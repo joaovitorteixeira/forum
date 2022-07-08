@@ -42,7 +42,7 @@ export class PostsController {
     description: 'The post has been created',
     type: ReadPostDto,
   })
-  async create(@Req() req, @Body() post: CreatePostDto): Promise<ReadPostDto> {
+  async create(@Req() req, @Body() post: CreatePostDto) {
     return this.postService.create(post, req.user);
   }
 

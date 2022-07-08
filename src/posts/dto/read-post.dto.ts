@@ -31,4 +31,16 @@ export default class ReadPostDto {
     type: UserReadDto,
   })
   user: UserReadDto;
+
+  @ApiProperty({
+    description: 'The number of likes of the post',
+    example: 0,
+  })
+  likes: number;
+
+  @ApiProperty({
+    description: 'The number of comments of the post',
+    example: 0,
+  })
+  comments: number;
 }
