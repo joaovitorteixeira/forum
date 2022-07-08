@@ -9,7 +9,9 @@ import {
 import { CONSTANTS } from 'src/Util/Constants/constants.util';
 import { REPORT_ERRORS } from 'src/Util/Constants/errors-reports.util';
 import { Match } from 'src/Util/Decorator/match.decorator';
+import CreateAddressDto from '../../address/dto/create-address.dto';
 import { CheckUnique } from '../../Util/Decorator/check-unique.decorator';
+import { ValidAddress } from '../../Util/Decorator/valid-address.decorator';
 import User from '../entity/users.entity';
 
 export default class UserRegisterDto {
@@ -46,6 +48,13 @@ export default class UserRegisterDto {
     example: 'Teixeira',
   })
   lastName: string;
+
+  @ApiProperty({
+    description: 'User address',
+    type: CreateAddressDto,
+  })
+  @ValidAddress()
+  address: CreateAddressDto;
 
   @IsString()
   @IsNotEmpty({ message: REPORT_ERRORS.FIELD_REQUIRED })

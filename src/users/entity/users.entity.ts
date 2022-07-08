@@ -56,7 +56,7 @@ export default class User extends BaseEntity {
   @ManyToMany(() => TermsConditions)
   termsConditions: TermsConditions[];
 
-  @OneToOne(() => Address, { nullable: true })
+  @OneToOne(() => Address, { nullable: true, cascade: true })
   @JoinColumn()
   address: Address;
 

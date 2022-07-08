@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import UserRegisterDto from './dto/user-register.dto';
 import User from './entity/users.entity';
 
@@ -8,6 +9,8 @@ import User from './entity/users.entity';
 type UserIdentificationType = string | number;
 @Injectable()
 export class UsersService {
+  constructor(private eventEmitter: EventEmitter2) {}
+
   /**
    * Register a new user
    * @param user The user to create in the database
@@ -22,7 +25,14 @@ export class UsersService {
     newUser.telephone = user.telephone;
     newUser.password = user.password;
 
-    return newUser.save();
+    const userCreated = await newUser.save();
+
+    this.eventEmitter.emit('user.created', {
+      user: userCreated,
+      address: user.address,
+    });
+
+    return userCreated;
   }
 
   /**
