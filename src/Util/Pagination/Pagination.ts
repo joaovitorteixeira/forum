@@ -42,10 +42,9 @@ export default class Pagination<EType extends typeof BaseEntity> {
     param: PaginationDto,
   ) {
     return query
-      .limit(param.limit)
-      .offset(this.calculateOffset(param.page, param.limit))
-      .orderBy(this.orderBy, 'DESC')
-      .getMany();
+      .take(param.limit)
+      .skip(this.calculateOffset(param.page, param.limit))
+      .getManyAndCount();
   }
 
   /**
