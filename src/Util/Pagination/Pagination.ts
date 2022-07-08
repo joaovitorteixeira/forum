@@ -25,8 +25,6 @@ export default class Pagination<EType extends typeof BaseEntity> {
     });
 
     return {
-      page,
-      limit,
       total,
       data,
     };
