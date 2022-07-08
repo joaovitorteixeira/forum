@@ -9,6 +9,7 @@ import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
 import { TagsModule } from './tags/tags.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { TermsConditionsModule } from './terms-conditions/terms-conditions.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     CommentsModule,
     TagsModule,
     EventEmitterModule.forRoot(),
+    TermsConditionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

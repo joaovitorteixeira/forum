@@ -12,6 +12,7 @@ import {
 import { AuthService } from '../../auth/auth.service';
 import Comment from '../../comments/entity/comments.entity';
 import Post from '../../posts/entity/posts.entity';
+import { TermsConditions } from '../../terms-conditions/entity/terms-conditions.entity';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -48,6 +49,9 @@ export default class User extends BaseEntity {
 
   @ManyToMany(() => Post, (post) => post.likes)
   likes: Post[];
+
+  @ManyToMany(() => TermsConditions)
+  termsConditions: TermsConditions[];
 
   @BeforeInsert()
   async hashPassword() {
