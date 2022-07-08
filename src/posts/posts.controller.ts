@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
@@ -14,11 +15,14 @@ import {
   ApiBody,
   ApiCreatedResponse,
   ApiNoContentResponse,
+  ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import CreatePostDto from './dto/create-post.dto';
 import LikePostDto from './dto/like-post.dto';
+import PaginationPostDto from './dto/pagination-post.dto';
+import ReadAllPostDto from './dto/read-all-post.dto';
 import ReadPostDto from './dto/read-post.dto';
 import { PostsService } from './posts.service';
 
@@ -62,5 +66,15 @@ export class PostsController {
   @ApiBearerAuth('Authorization')
   async unlike(@Req() req, @Param() post: LikePostDto) {
     await this.postService.removeLike(post.id, req.user);
+  }
+
+  @Get(':page/:limit')
+  @ApiBearerAuth('Authorization')
+  @ApiOkResponse({
+    description: 'List of posts',
+    type: PaginationPostDto,
+  })
+  async readAll(@Param() param: ReadAllPostDto) {
+    return this.postService.readPost(param);
   }
 }
