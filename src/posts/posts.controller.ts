@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Param,
   Post,
-  Req,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -19,8 +18,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import UserTermsConditionsUtil from '../Util/CustomValidation/user-terms-conditions.util';
 import GetUser from '../Util/Decorator/get-user.decorator';
+import UserTermsConditionsUtil from '../Util/Decorator/user-terms-conditions.util';
 import CreatePostDto from './dto/create-post.dto';
 import LikePostDto from './dto/like-post.dto';
 import PaginationPostDto from './dto/pagination-post.dto';

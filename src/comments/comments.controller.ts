@@ -7,8 +7,8 @@ import {
   HttpStatus,
   Param,
   Post,
-  Req,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import GetUser from '../Util/Decorator/get-user.decorator';
+import UserTermsConditionsUtil from '../Util/Decorator/user-terms-conditions.util';
 import { CommentsService } from './comments.service';
 import CreateCommentDto from './dto/create-comment.dto';
 import DeleteCommentDto from './dto/delete-comment.dto';
@@ -32,6 +33,7 @@ import Comment from './entity/comments.entity';
 @ApiTags('comments')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('Authorization')
+@UsePipes(UserTermsConditionsUtil)
 export default class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
