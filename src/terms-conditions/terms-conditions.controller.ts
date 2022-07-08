@@ -1,6 +1,15 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Req,
+  UseGuards,
+  UsePipes,
+} from '@nestjs/common';
 import { ApiBasicAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import GetUser from '../Util/Decorator/get-user.decorator';
+import UserTermsConditionsUtil from '../Util/Decorator/user-terms-conditions.util';
 import AgreeTermsConditionsDto from './dto/agree-terms-conditions.dto';
 import CreateTermsConditionsDto from './dto/create-terms-conditions.dto';
 import ReadTermsConditionsDto from './dto/read-terms-conditions.dto';
@@ -18,7 +27,11 @@ export class TermsConditionsController {
     description: 'Terms and conditions created',
     type: ReadTermsConditionsDto,
   })
-  async create(@Body() terms: CreateTermsConditionsDto): Promise<any> {
+  @UsePipes(UserTermsConditionsUtil)
+  async create(
+    @Body() terms: CreateTermsConditionsDto,
+    @GetUser() _user,
+  ): Promise<any> {
     return await this.termsConditionsService.create(terms);
   }
 
