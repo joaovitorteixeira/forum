@@ -42,9 +42,15 @@ export class UsersService {
    */
   async findOne(identifier: UserIdentificationType): Promise<User> {
     if (isNaN(Number(identifier))) {
-      return await User.findOneBy({ email: identifier as string });
+      return await User.findOne({
+        where: { email: identifier as string },
+        relations: ['address'],
+      });
     }
 
-    return await User.findOneBy({ id: identifier as number });
+    return await User.findOne({
+      where: { id: identifier as number },
+      relations: ['address'],
+    });
   }
 }
