@@ -12,7 +12,6 @@ import {
 } from 'typeorm';
 import Comment from '../../comments/entity/comments.entity';
 import Tag from '../../tags/entity/tags.entity';
-import { VirtualColumn } from '../../Util/Constants/virtual-column.util';
 import PostLikesUser from './post-likes-user.entity';
 
 @Entity()
@@ -30,9 +29,6 @@ export default class Post extends BaseEntity {
 
   @Column()
   createdAt: Date;
-
-  @VirtualColumn()
-  likesCount: number;
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;

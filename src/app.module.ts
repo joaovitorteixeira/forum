@@ -9,7 +9,6 @@ import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
 import { TagsModule } from './tags/tags.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import './Util/TypeOrmExtension';
 
 @Module({
   imports: [
