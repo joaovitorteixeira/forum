@@ -28,6 +28,7 @@ import { PostsService } from './posts.service';
 
 @Controller('posts')
 @ApiTags('posts')
+@UseGuards(JwtAuthGuard)
 export class PostsController {
   constructor(private postService: PostsService) {}
 
@@ -36,7 +37,6 @@ export class PostsController {
     type: CreatePostDto,
     description: 'The post to be created',
   })
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @ApiCreatedResponse({
     description: 'The post has been created',
@@ -51,7 +51,6 @@ export class PostsController {
     description: 'The post has been liked',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   async like(@Req() req, @Param() post: LikePostDto) {
     await this.postService.like(post.id, req.user);
@@ -62,19 +61,19 @@ export class PostsController {
     description: 'The post has been like removed',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   async unlike(@Req() req, @Param() post: LikePostDto) {
     await this.postService.removeLike(post.id, req.user);
   }
 
-  @Get(':page/:limit')
+  @Post('list')
   @ApiBearerAuth('Authorization')
+  @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
     description: 'List of posts',
     type: PaginationPostDto,
   })
-  async readAll(@Param() param: ReadAllPostDto) {
+  async readAll(@Body() param: ReadAllPostDto) {
     return this.postService.readPost(param);
   }
 }

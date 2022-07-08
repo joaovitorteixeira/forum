@@ -92,22 +92,29 @@ export class PostsService {
    * @returns The posts filtered by the parameters
    */
   async readPost(param: ReadAllPostDto) {
-    const query = new Pagination('createdAt').pageBuilder(
-      Post.createQueryBuilder('post')
-        .innerJoinAndMapOne('post.user', User, 'user', 'user.id = post.userId')
-        .leftJoinAndSelect('post.likes', 'likes')
-        .leftJoinAndSelect(
-          'post.comments',
-          'comments',
-          'comments.parentId IS NULL',
-        )
-        .leftJoinAndSelect('post.tags', 'tags')
-        .loadRelationCountAndMap('post.likes', 'post.likes')
-        .loadRelationCountAndMap('post.comments', 'post.comments'),
-      param,
-    );
+    const query = Post.createQueryBuilder('post')
+      .innerJoinAndMapOne('post.user', User, 'user', 'user.id = post.userId')
+      .leftJoinAndSelect('post.likes', 'likes')
+      .leftJoinAndSelect(
+        'post.comments',
+        'comments',
+        'comments.parentId IS NULL',
+      )
+      .leftJoinAndSelect('post.tags', 'tags')
+      .loadRelationCountAndMap('post.likes', 'post.likes')
+      .loadRelationCountAndMap('post.comments', 'post.comments');
 
-    const [data, total] = await query;
+    /**
+     * todo: We can improve here by using chain responsibility pattern
+     * But it's not necessary for the moment because the query is simple
+     */
+    if (param.tags && param.tags.length) {
+      query.where('tags.name IN (:...tags)', { tags: param.tags });
+    }
+
+    const result = await new Pagination('createdAt').pageBuilder(query, param);
+
+    const [data, total] = await result;
 
     return { data, total };
   }
