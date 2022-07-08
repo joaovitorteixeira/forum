@@ -45,7 +45,7 @@ export default class Pagination<EType extends typeof BaseEntity> {
       .limit(param.limit)
       .offset(this.calculateOffset(param.page, param.limit))
       .orderBy(this.orderBy, 'DESC')
-      .getManyAndCount();
+      .getMany();
   }
 
   /**
