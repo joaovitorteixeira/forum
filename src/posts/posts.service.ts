@@ -95,7 +95,15 @@ export class PostsService {
     const query = new Pagination(Post, 'createdAt').pageBuilder(
       Post.createQueryBuilder('post')
         .innerJoinAndMapOne('post.user', User, 'user', 'user.id = post.userId')
-        .leftJoinAndSelect('post.likes', 'likes'),
+        .groupBy('post.id')
+        .addSelect((qb) => {
+          return qb
+            .subQuery()
+            .select('COUNT(*)')
+            .from(PostLikesUser, 'likes')
+            .where('likes.postId = post.id');
+        }, 'likesCount'),
+
       param,
     );
 
