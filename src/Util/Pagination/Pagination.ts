@@ -3,7 +3,7 @@ import PaginationDto from './dto/pagination.dto';
 import ResponsePaginationDto from './dto/response-pagination.dto';
 
 export default class Pagination<EType extends typeof BaseEntity> {
-  constructor(private Class: EType, private orderBy: string) {}
+  constructor(private orderBy: string) {}
 
   /**
    * Paginate the results of a query
@@ -11,12 +11,13 @@ export default class Pagination<EType extends typeof BaseEntity> {
    * @returns Object with paginated data
    */
   async paginate<TParam extends PaginationDto>(
+    Class: EType,
     param: TParam,
     relations?: string[],
   ): Promise<ResponsePaginationDto> {
     const { page, limit } = param;
 
-    const [data, total] = await this.Class.findAndCount({
+    const [data, total] = await Class.findAndCount({
       skip: this.calculateOffset(page, limit),
       take: limit,
       relations,
@@ -24,8 +25,6 @@ export default class Pagination<EType extends typeof BaseEntity> {
     });
 
     return {
-      page,
-      limit,
       total,
       data,
     };

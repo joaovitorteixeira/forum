@@ -92,7 +92,7 @@ export class PostsService {
    * @returns The posts filtered by the parameters
    */
   async readPost(param: ReadAllPostDto) {
-    const query = new Pagination(Post, 'createdAt').pageBuilder(
+    const query = new Pagination('createdAt').pageBuilder(
       Post.createQueryBuilder('post')
         .innerJoinAndMapOne('post.user', User, 'user', 'user.id = post.userId')
         .leftJoinAndSelect('post.likes', 'likes')
