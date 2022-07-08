@@ -96,7 +96,11 @@ export class PostsService {
       Post.createQueryBuilder('post')
         .innerJoinAndMapOne('post.user', User, 'user', 'user.id = post.userId')
         .leftJoinAndSelect('post.likes', 'likes')
-        .leftJoinAndSelect('post.comments', 'comments')
+        .leftJoinAndSelect(
+          'post.comments',
+          'comments',
+          'comments.parentId IS NULL',
+        )
         .leftJoinAndSelect('post.tags', 'tags'),
 
       param,
