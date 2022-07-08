@@ -1,6 +1,7 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBasicAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import AgreeTermsConditionsDto from './dto/agree-terms-conditions.dto';
 import CreateTermsConditionsDto from './dto/create-terms-conditions.dto';
 import ReadTermsConditionsDto from './dto/read-terms-conditions.dto';
 import { TermsConditionsService } from './terms-conditions.service';
@@ -19,5 +20,18 @@ export class TermsConditionsController {
   @ApiBasicAuth('Authorization')
   async create(@Body() terms: CreateTermsConditionsDto): Promise<any> {
     return await this.termsConditionsService.create(terms);
+  }
+
+  @Post('agree')
+  @ApiCreatedResponse({
+    description: 'Terms and conditions read',
+    type: ReadTermsConditionsDto,
+  })
+  @ApiBasicAuth('Authorization')
+  async agree(
+    @Body() terms: AgreeTermsConditionsDto,
+    @Req() req,
+  ): Promise<any> {
+    return await this.termsConditionsService.agree(terms, req.user);
   }
 }

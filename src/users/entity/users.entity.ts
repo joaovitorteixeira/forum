@@ -5,7 +5,6 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -52,7 +51,6 @@ export default class User extends BaseEntity {
   likes: Post[];
 
   @ManyToMany(() => TermsConditions)
-  @JoinTable()
   termsConditions: TermsConditions[];
 
   @BeforeInsert()
