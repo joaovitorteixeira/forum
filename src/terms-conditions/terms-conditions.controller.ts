@@ -9,6 +9,7 @@ import { TermsConditionsService } from './terms-conditions.service';
 @Controller('terms-conditions')
 @ApiTags('TermsConditions')
 @UseGuards(JwtAuthGuard)
+@ApiBasicAuth('Authorization')
 export class TermsConditionsController {
   constructor(private termsConditionsService: TermsConditionsService) {}
 
@@ -17,7 +18,6 @@ export class TermsConditionsController {
     description: 'Terms and conditions created',
     type: ReadTermsConditionsDto,
   })
-  @ApiBasicAuth('Authorization')
   async create(@Body() terms: CreateTermsConditionsDto): Promise<any> {
     return await this.termsConditionsService.create(terms);
   }
@@ -27,7 +27,6 @@ export class TermsConditionsController {
     description: 'Terms and conditions read',
     type: ReadTermsConditionsDto,
   })
-  @ApiBasicAuth('Authorization')
   async agree(
     @Body() terms: AgreeTermsConditionsDto,
     @Req() req,

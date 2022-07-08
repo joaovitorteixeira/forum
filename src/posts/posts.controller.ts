@@ -29,6 +29,7 @@ import { PostsService } from './posts.service';
 @Controller('posts')
 @ApiTags('posts')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('Authorization')
 export class PostsController {
   constructor(private postService: PostsService) {}
 
@@ -37,7 +38,6 @@ export class PostsController {
     type: CreatePostDto,
     description: 'The post to be created',
   })
-  @ApiBearerAuth('Authorization')
   @ApiCreatedResponse({
     description: 'The post has been created',
     type: ReadPostDto,
@@ -51,7 +51,6 @@ export class PostsController {
     description: 'The post has been liked',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiBearerAuth('Authorization')
   async like(@Req() req, @Param() post: LikePostDto) {
     await this.postService.like(post.id, req.user);
   }
@@ -61,13 +60,11 @@ export class PostsController {
     description: 'The post has been like removed',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiBearerAuth('Authorization')
   async unlike(@Req() req, @Param() post: LikePostDto) {
     await this.postService.removeLike(post.id, req.user);
   }
 
   @Post('list')
-  @ApiBearerAuth('Authorization')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
     description: 'List of posts',
