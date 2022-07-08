@@ -4,8 +4,8 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -54,12 +54,7 @@ export default class CommentsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
-  @ApiQuery({
-    type: DeleteCommentDto,
-    description: 'Comment to delete',
-    name: 'id',
-  })
-  async delete(@Query() id: number, @Req() req) {
-    await this.commentsService.delete(id, req.user);
+  async delete(@Param() param: DeleteCommentDto, @Req() req) {
+    await this.commentsService.delete(param, req.user);
   }
 }

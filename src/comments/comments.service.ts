@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import Post from '../posts/entity/posts.entity';
 import User from '../users/entity/users.entity';
 import CreateCommentDto from './dto/create-comment.dto';
+import DeleteCommentDto from './dto/delete-comment.dto';
 import Comment from './entity/comments.entity';
 
 @Injectable()
@@ -29,10 +30,10 @@ export class CommentsService {
 
   /**
    * Delete a comment
-   * @param commentId Comment id to delete
+   * @param param Comment id to delete
    */
-  async delete(commentId: number, user: User) {
-    const comment = await Comment.findOneBy({ id: commentId });
+  async delete(param: DeleteCommentDto, user: User) {
+    const comment = await Comment.findOneBy({ id: param.id });
 
     if (comment.userId !== user.id)
       throw new ForbiddenException(
