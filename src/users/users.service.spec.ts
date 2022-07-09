@@ -5,6 +5,7 @@ import { UsersService } from './users.service';
 import * as sinon from 'sinon';
 import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
 import UserRegisterDto from './dto/user-register.dto';
+import { Repository } from 'typeorm';
 
 describe('UsersService', () => {
   const userCreate: UserRegisterDto = {
@@ -24,6 +25,7 @@ describe('UsersService', () => {
   };
   const userId = 1;
   let service: UsersService;
+  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const { address, ...user } = userCreate;
@@ -33,7 +35,9 @@ describe('UsersService', () => {
         {
           provide: getRepositoryToken(User),
           useValue: {
-            save: jest.fn().mockResolvedValue(user),
+            create: jest.fn().mockReturnValue({
+              save: jest.fn().mockResolvedValue(user),
+            }),
             findOne: jest.fn().mockResolvedValue({ ...user, id: userId }),
           },
         },
@@ -42,6 +46,15 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
+    userRepository = module.get(getRepositoryToken(User));
+  });
+
+  it('service should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  it('userRepository should be defined', () => {
+    expect(userRepository).toBeDefined();
   });
 
   it('Should create a new user', async () => {
@@ -49,6 +62,7 @@ describe('UsersService', () => {
     const spyEventEmitter = sinon.spy(EventEmitter2.prototype, 'emit');
 
     await expect(service.register(userCreate)).resolves.toEqual(userExpected);
+    expect(userRepository.create).toHaveBeenCalledWith(userExpected);
     expect(spyEventEmitter.calledOnce).toBe(true);
     expect(
       spyEventEmitter.calledWith('user.created', {
@@ -61,14 +75,12 @@ describe('UsersService', () => {
   it('Should find a user by id', async () => {
     const { address, ...baseUser } = userCreate;
     const userExpected = { ...baseUser, id: userId };
-
     await expect(service.findOne(userId)).resolves.toEqual(userExpected);
   });
 
   it('Should find a user by email', async () => {
     const { address, ...baseUser } = userCreate;
     const userExpected = { ...baseUser, id: userId };
-
     await expect(service.findOne(userExpected.email)).resolves.toEqual(
       userExpected,
     );

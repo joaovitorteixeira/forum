@@ -22,20 +22,17 @@ export class UsersService {
    * @returns The created user
    */
   async register(user: UserRegisterDto): Promise<User> {
-    const userCreated = await this.userRepository.save({
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      telephone: user.telephone,
-      password: user.password,
-    });
+    const { address, ...userWithoutAddress } = user;
+    const newUser = await this.userRepository
+      .create({ ...userWithoutAddress })
+      .save();
 
     this.eventEmitter.emit('user.created', {
-      user: userCreated,
+      user: newUser,
       address: user.address,
     });
 
-    return userCreated;
+    return newUser;
   }
 
   /**
