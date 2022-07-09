@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import UserRegisterDto from './dto/user-register.dto';
 import User from './entity/users.entity';
 
@@ -9,7 +11,10 @@ import User from './entity/users.entity';
 type UserIdentificationType = string | number;
 @Injectable()
 export class UsersService {
-  constructor(private eventEmitter: EventEmitter2) {}
+  constructor(
+    private eventEmitter: EventEmitter2,
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
   /**
    * Register a new user
@@ -17,15 +22,13 @@ export class UsersService {
    * @returns The created user
    */
   async register(user: UserRegisterDto): Promise<User> {
-    const newUser = new User();
-
-    newUser.email = user.email;
-    newUser.firstName = user.firstName;
-    newUser.lastName = user.lastName;
-    newUser.telephone = user.telephone;
-    newUser.password = user.password;
-
-    const userCreated = await newUser.save();
+    const userCreated = await this.userRepository.save({
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      telephone: user.telephone,
+      password: user.password,
+    });
 
     this.eventEmitter.emit('user.created', {
       user: userCreated,
@@ -42,13 +45,13 @@ export class UsersService {
    */
   async findOne(identifier: UserIdentificationType): Promise<User> {
     if (isNaN(Number(identifier))) {
-      return await User.findOne({
+      return await this.userRepository.findOne({
         where: { email: identifier as string },
         relations: ['address'],
       });
     }
 
-    return await User.findOne({
+    return await this.userRepository.findOne({
       where: { id: identifier as number },
       relations: ['address'],
     });

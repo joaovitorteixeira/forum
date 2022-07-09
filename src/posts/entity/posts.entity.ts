@@ -1,4 +1,3 @@
-import User from 'src/users/entity/users.entity';
 import {
   BaseEntity,
   BeforeInsert,
@@ -12,6 +11,7 @@ import {
 } from 'typeorm';
 import Comment from '../../comments/entity/comments.entity';
 import Tag from '../../tags/entity/tags.entity';
+import User from '../../users/entity/users.entity';
 import PostLikesUser from './post-likes-user.entity';
 
 @Entity()
