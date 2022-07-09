@@ -22,9 +22,7 @@ export class TermsConditionsService {
   async create(
     termsConditions: CreateTermsConditionsDto,
   ): Promise<ReadTermsConditionsDto> {
-    return this.termsConditionsRepository.save({
-      description: termsConditions.description,
-    });
+    return this.termsConditionsRepository.create({ ...termsConditions }).save();
   }
 
   /**
