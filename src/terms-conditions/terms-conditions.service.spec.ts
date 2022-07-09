@@ -34,7 +34,9 @@ describe('TermsConditionsService', () => {
         {
           provide: getRepositoryToken(TermsConditions),
           useValue: {
-            save: jest.fn().mockResolvedValue(termsConditions),
+            create: jest.fn().mockReturnValue({
+              save: jest.fn().mockResolvedValue(termsConditions),
+            }),
           },
         },
       ],
@@ -54,6 +56,9 @@ describe('TermsConditionsService', () => {
 
   it('Should create a new terms and conditions', async () => {
     await expect(service.create(termsConditions)).resolves.toEqual(
+      termsConditions,
+    );
+    expect(termsConditionsRepository.create).toHaveBeenCalledWith(
       termsConditions,
     );
   });
