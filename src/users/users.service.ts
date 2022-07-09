@@ -51,7 +51,7 @@ export class UsersService {
       });
     }
 
-    return await User.findOne({
+    return await this.userRepository.findOne({
       where: { id: identifier as number },
       relations: ['address'],
     });
