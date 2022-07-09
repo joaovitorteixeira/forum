@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import User from 'src/users/entity/users.entity';
+import User from '../users/entity/users.entity';
 import Pagination from '../Util/Pagination/Pagination';
 import CreatePostDto from './dto/create-post.dto';
 import ReadAllPostDto from './dto/read-all-post.dto';
