@@ -1,4 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import User from '../users/entity/users.entity';
 import AgreeTermsConditionsDto from './dto/agree-terms-conditions.dto';
 import CreateTermsConditionsDto from './dto/create-terms-conditions.dto';
@@ -7,7 +9,10 @@ import { TermsConditions } from './entity/terms-conditions.entity';
 
 @Injectable()
 export class TermsConditionsService {
-  constructor() {}
+  constructor(
+    @InjectRepository(TermsConditions)
+    private termsConditionsRepository: Repository<TermsConditions>,
+  ) {}
 
   /**
    * Create a new terms and conditions
@@ -17,11 +22,9 @@ export class TermsConditionsService {
   async create(
     termsConditions: CreateTermsConditionsDto,
   ): Promise<ReadTermsConditionsDto> {
-    const createdTermsConditions = await new TermsConditions();
-
-    createdTermsConditions.description = termsConditions.description;
-
-    return createdTermsConditions.save();
+    return this.termsConditionsRepository.save({
+      description: termsConditions.description,
+    });
   }
 
   /**
@@ -34,9 +37,8 @@ export class TermsConditionsService {
     termsConditions: AgreeTermsConditionsDto,
     user: User,
   ): Promise<ReadTermsConditionsDto> {
-    const readTermsConditions = await TermsConditions.createQueryBuilder(
-      'termsConditions',
-    )
+    const readTermsConditions = await this.termsConditionsRepository
+      .createQueryBuilder('termsConditions')
       .leftJoinAndSelect('termsConditions.users', 'users')
       .where('id = :id', {
         id: termsConditions.id,
