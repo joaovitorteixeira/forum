@@ -12,10 +12,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Address from '../../address/entity/address.entity';
-import { AuthService } from '../../auth/auth.service';
 import Comment from '../../comments/entity/comments.entity';
 import Post from '../../posts/entity/posts.entity';
 import { TermsConditions } from '../../terms-conditions/entity/terms-conditions.entity';
+import HashPassword from '../../Util/HashPassword';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -62,6 +62,6 @@ export default class User extends BaseEntity {
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await AuthService.hashPassword(this.password);
+    this.password = await HashPassword.hashPassword(this.password);
   }
 }

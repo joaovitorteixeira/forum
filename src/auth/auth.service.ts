@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import User from '../users/entity/users.entity';
 import { UsersService } from '../users/users.service';
+import HashPassword from '../Util/HashPassword';
 import LoginSucceededDto from './dto/login-succeeded.dto';
 import JwtPayload from './Types/JwtPayload';
 
@@ -38,36 +37,10 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<User> {
     const user = await this.userService.findOne(email);
     const isValid =
-      user && (await AuthService.comparePassword(password, user.password));
+      user && (await HashPassword.comparePassword(password, user.password));
 
     if (isValid) return user;
 
     return null;
-  }
-
-  /**
-   * Hash the password
-   * @param password The password to hash
-   * @returns String The hashed password
-   */
-  static async hashPassword(password: string): Promise<string> {
-    const salt = bcrypt.genSaltSync(
-      +new ConfigService().get('BCRYPT_SALT_ROUNDS'),
-    );
-
-    return bcrypt.hash(password, salt);
-  }
-
-  /**
-   * Check if the password is correct
-   * @param password The password to compare
-   * @param hash The hash to compare with
-   * @returns Boolean True if the password is correct, false otherwise
-   */
-  static async comparePassword(
-    password: string,
-    hash: string,
-  ): Promise<boolean> {
-    return bcrypt.compare(password, hash);
   }
 }
