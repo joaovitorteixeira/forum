@@ -3,5 +3,6 @@ import { GoogleMapsApiService } from './google-maps-api.service';
 
 @Module({
   providers: [GoogleMapsApiService],
+  exports: [GoogleMapsApiService],
 })
 export class GoogleMapsApiModule {}
