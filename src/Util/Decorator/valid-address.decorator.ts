@@ -6,8 +6,8 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { AddressService } from '../../address/address.service';
 import CreateAddressDto from '../../address/dto/create-address.dto';
+import { GoogleMapsApiService } from '../../google-maps-api/google-maps-api.service';
 
 /**
  * Validate address if it exists.
@@ -31,7 +31,9 @@ export function ValidAddress(validationOptions?: ValidationOptions) {
 export class ValidAddressConstraint implements ValidatorConstraintInterface {
   async validate(address: CreateAddressDto) {
     try {
-      await new AddressService(new ConfigService()).getCoordinates(address);
+      await new GoogleMapsApiService(new ConfigService()).getCoordinates(
+        address,
+      );
 
       return true;
     } catch (e) {

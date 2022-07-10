@@ -11,6 +11,7 @@ import { TagsModule } from './tags/tags.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TermsConditionsModule } from './terms-conditions/terms-conditions.module';
 import { AddressModule } from './address/address.module';
+import { GoogleMapsApiModule } from './google-maps-api/google-maps-api.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AddressModule } from './address/address.module';
     EventEmitterModule.forRoot(),
     TermsConditionsModule,
     AddressModule,
+    GoogleMapsApiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
