@@ -610,6 +610,13 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
+"@joaovitorteixeira/decorator-library@1.0.0":
+  version "1.0.0"
+  resolved "https://npm.pkg.github.com/download/@joaovitorteixeira/decorator-library/1.0.0/98d59e135fc422749c5ffd0ecfea5d9347d0c13750cea8ba1c9246614c23f2e0#0ca32b76f5ec8b767a9f998e60cdea31ffedd20c"
+  integrity sha512-MLWGKNSR6SKcOMocgbXi6DWJ2bh6R5miseBHr4rd34aOKlONGlmhHjvN7HhsNbXluRt86lZryWaqHZPRPkRCgA==
+  dependencies:
+    class-validator "^0.13.2"
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"

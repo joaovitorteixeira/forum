@@ -1,3 +1,4 @@
+import { Match } from '@joaovitorteixeira/decorator-library';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
@@ -10,7 +11,6 @@ import CreateAddressDto from '../../address/dto/create-address.dto';
 import { CONSTANTS } from '../../Util/Constants/constants.util';
 import { REPORT_ERRORS } from '../../Util/Constants/errors-reports.util';
 import { CheckUnique } from '../../Util/Decorator/check-unique.decorator';
-import { Match } from '../../Util/Decorator/match.decorator';
 import { ValidAddress } from '../../Util/Decorator/valid-address.decorator';
 import User from '../entity/users.entity';
 
